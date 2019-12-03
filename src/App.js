@@ -25,7 +25,7 @@ class App extends Component {
         MockBackend.addVenue(venue);
     }
 
-    venues = index => {
+    favoriteVenues = index => {
         return MockBackend.getClientFavoriteVenues(index);
     }
 
@@ -73,7 +73,7 @@ class App extends Component {
                 Cell: (row) => {
                     return (
                         <ul className="ui list">
-                            {this.venues(row.original.id).map(venue => <li key={row.original.id}>{venue.name}</li>)}
+                            {this.favoriteVenues(row.original.id).map(venue => <li key={row.original.id}>{venue.name}</li>)}
                         </ul>
                     )
                 }
