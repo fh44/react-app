@@ -6,6 +6,7 @@ import 'react-table/react-table.css'
 import ClientForm from './ClientForm';
 import VenueForm from './VenueForm';
 
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -25,8 +26,14 @@ class App extends Component {
     }
 
     venues = index => {
-        console.log(index);
         return MockBackend.getClientFavoriteVenues(index);
+    }
+
+    deleteClient = (index) => {
+        let clients = MockBackend.removeClient(index);
+        clients = MockBackend.listClients();
+        clients.splice(index, 1)
+        this.setState({ clients });
     }
 
     render() {
@@ -48,21 +55,16 @@ class App extends Component {
                 accessor: "age",
                 filterable: true,
                 filterMethod: (filter, row) => {
-                    return row[filter.id] >= filter.value;
+                    return parseInt(row[filter.id]) >= parseInt(filter.value);
                 }
 
             },
             {
                 Header: '',
                 Cell: (row) => (
-                    <button onClick={() => {
-                        MockBackend.removeClient(row.index);
-                        let clients = this.state.clients;
-                        clients.splice(row.index, 1)
-                        this.setState({ clients });
-                    }}>
+                    <button className="ui negative basic button" onClick={this.deleteClient}>
                         Delete
-                            </button>
+                    </button>
                 )
             },
             {
@@ -70,7 +72,7 @@ class App extends Component {
                 accessor: "id",
                 Cell: (row) => {
                     return (
-                        <ul>
+                        <ul className="ui list">
                             {this.venues(row.original.id).map(venue => <li key={row.original.id}>{venue.name}</li>)}
                         </ul>
                     )
@@ -80,15 +82,15 @@ class App extends Component {
             }
         ]
         return (
-            <div>
-                <div className="client-form">
+            <div id="wrapper">
+                <div id="first" className="client-form">
                     <ClientForm addClient={this.addClient.bind(this)} />
                 </div>
-                <div className="venue-form">
+                <div id="second" className="venue-form">
                     <VenueForm addVenue={this.addVenue} />
                 </div>
 
-                <ReactTable
+                <ReactTable className="ui celled table"
                     columns={columns}
                     data={this.state.clients} />
 
