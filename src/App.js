@@ -5,35 +5,43 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css'
 import ClientForm from './ClientForm';
 import VenueForm from './VenueForm';
-
+import VenuesClientForm from './VenuesClientForm'
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            clients: MockBackend.listClients()
+            clients: MockBackend.listClients(),
+            venues: MockBackend.listVenues()
         }
     }
 
     addClient = client => {
         MockBackend.addClient(client);
-        let clients = this.state.clients;
+        let clients = MockBackend.listClients();
         this.setState({ clients });
     }
 
     addVenue = venue => {
         MockBackend.addVenue(venue);
+        let venues = MockBackend.listVenues();
+        this.setState({ venues })
     }
 
     favoriteVenues = index => {
         return MockBackend.getClientFavoriteVenues(index);
     }
 
-    deleteClient = (index) => {
+    deleteClient = index => {
         let clients = MockBackend.removeClient(index);
         clients = MockBackend.listClients();
-        clients.splice(index, 1)
         this.setState({ clients });
+    }
+
+    addFavoriteVenue = (clientId, venueId) => {
+        MockBackend.addFavoriteVenueToClient(clientId, venueId);
+        let clients = MockBackend.listClients();
+        this.setState({clients});
     }
 
     render() {
@@ -61,8 +69,9 @@ class App extends Component {
             },
             {
                 Header: '',
+                accessor: "id",
                 Cell: (row) => (
-                    <button className="ui negative basic button" onClick={this.deleteClient}>
+                    <button className="ui negative basic button" onClick={() => this.deleteClient(row.original.id)}>
                         Delete
                     </button>
                 )
@@ -89,11 +98,13 @@ class App extends Component {
                 <div id="second" className="venue-form">
                     <VenueForm addVenue={this.addVenue} />
                 </div>
+                <div>
+                    <VenuesClientForm addFavoriteVenue={this.addFavoriteVenue}></VenuesClientForm>
+                </div>
 
                 <ReactTable className="ui celled table"
                     columns={columns}
                     data={this.state.clients} />
-
 
             </div>
 

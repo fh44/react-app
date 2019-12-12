@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import 'semantic-ui-css/semantic.min.css';
-import VenuesDropDown from './VenuesDropDown'
 
 class ClientForm extends Component {
     constructor(props) {
@@ -20,21 +19,6 @@ class ClientForm extends Component {
     }
 
     handleSubmit = (e) => {
-        ('.ui.form')
-        .form({
-            fields: {
-            firstName     : 'empty',
-            lastName   : 'empty',
-            email : 'empty',
-            age : 'empy'
-            }
-        });
-        this.handleAddClient.bind(this);
-        e.preventDefault()
-    }
-
-    handleAddClient(e) {
-     
         e.preventDefault();
         let client = Object();
         client.firstName = this.state.firstName;
@@ -43,6 +27,7 @@ class ClientForm extends Component {
         client.email = this.state.email;
         client.name = this.state.firstName.toLowerCase();
         this.props.addClient(client);
+      
     }
 
     clearForm = () => {
@@ -53,9 +38,6 @@ class ClientForm extends Component {
             age: ''
         })
     }
-
-  
-    
 
     render() {
         return (
@@ -82,11 +64,6 @@ class ClientForm extends Component {
                 <div className="field">
                     <label>Email</label>
                     <input type="text" required name="email" onChange={this.handleChange.bind(this)} value={this.state.email} placeholder="Email" />
-                </div>
-                <div className="field">
-                    <label>Favorite Venues</label>
-                   <VenuesDropDown></VenuesDropDown>
-                   
                 </div>
                 
                 <div>

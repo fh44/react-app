@@ -40,6 +40,17 @@
   clear: both;
 }
 
+.client-form {
+  margin: 30px;
+  border-bottom: 2px solid;
+  border-color: skyblue;
+}
+
+.venue-form {
+  margin: 30px;
+  border-bottom: 2px solid;
+  border-color: skyblue;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

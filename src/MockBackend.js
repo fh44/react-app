@@ -20,7 +20,7 @@ const MockBackend = {
     listVenues: () => Venues,
     getClient: (client_id) => _.find(Clients, ['id', client_id]),
     getVenue: (venue_id) => _.find(Venues, ['id', venue_id]),
-    addClient: (client) => {
+    addClient: (client, favoriteVenues) => {
         if (typeof client.email != "string" || client.email === '') {
             throw new Error('Client email is missing');
         }
