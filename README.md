@@ -1,3 +1,6 @@
+
+Simple react app graphic interface to test CRUD operations listed above.
+
 ## Installation and running the project
 
 To run first install dependencies:
